@@ -1,10 +1,16 @@
 {
-  "name": "Portifolio",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "taskflow",
+  "version": "0.1.0",
+  "description": "TaskFlow — sistema de gestão de tarefas/projetos (monorepo Turborepo + pnpm)",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "format": "prettier --write .",
+    "typecheck": "turbo run typecheck",
+    "seed": "turbo run seed",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +22,26 @@
       "onFail": "download"
     }
   },
-  "type": "module"
+  "type": "module",
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ],
+    "**/*.{ts,tsx,js,jsx,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@taskflow/eslint-config": "workspace:*",
+    "eslint": "9.39.5",
+    "eslint-config-next": "15.5.22",
+    "eslint-config-prettier": "10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.2.0",
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.6",
+    "typescript": "5.7.3",
+    "typescript-eslint": "8.65.0"
+  }
 }
