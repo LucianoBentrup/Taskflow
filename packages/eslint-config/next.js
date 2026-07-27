@@ -3,4 +3,8 @@ import { baseConfig } from './base.js';
 
 const compat = new FlatCompat();
 
-export default [...baseConfig, ...compat.extends('next/core-web-vitals')];
+export default [
+  ...baseConfig,
+  ...compat.extends('next/core-web-vitals'),
+  { ignores: ['next-env.d.ts'] },
+];
