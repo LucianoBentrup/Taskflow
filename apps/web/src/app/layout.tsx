@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { QueryProvider } from '@/providers/query-provider';
-import { Sidebar } from '@/components/layout/Sidebar';
-import { Header } from '@/components/layout/Header';
+import { AuthProvider } from '@/providers/auth-provider';
 import '../styles/globals.css';
 
 export const metadata: Metadata = {
@@ -18,13 +17,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <QueryProvider>
-          <div className="flex min-h-screen">
-            <Sidebar />
-            <div className="flex flex-1 flex-col">
-              <Header />
-              <main className="flex-1 p-6">{children}</main>
-            </div>
-          </div>
+          <AuthProvider>{children}</AuthProvider>
         </QueryProvider>
       </body>
     </html>
