@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -78,6 +79,13 @@ export function RegisterForm() {
       >
         {isSubmitting ? 'Criando conta...' : 'Criar conta'}
       </button>
+
+      <p className="text-center text-sm text-muted-foreground">
+        Já tem conta?{' '}
+        <Link href="/login" className="font-medium text-primary hover:underline">
+          Entrar
+        </Link>
+      </p>
     </form>
   );
 }

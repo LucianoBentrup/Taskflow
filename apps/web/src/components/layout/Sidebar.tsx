@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { LayoutDashboard, FolderKanban, ListChecks } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, ListChecks, UserCircle } from 'lucide-react';
 
 const NAV_ITEMS = [
   { label: 'Dashboard', href: '/', icon: LayoutDashboard },
   { label: 'Projetos', href: '/projects', icon: FolderKanban },
   { label: 'Tarefas', href: '/tasks', icon: ListChecks },
+  { label: 'Perfil', href: '/profile', icon: UserCircle },
 ];
 
 export function Sidebar() {
