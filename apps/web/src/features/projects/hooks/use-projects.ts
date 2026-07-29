@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import {
   createProjectRequest,
@@ -45,7 +46,11 @@ export function useCreateProject() {
   return useMutation({
     mutationFn: (input: CreateProjectFormValues) => createProjectRequest(input),
     onSuccess: () => {
+      toast.success('Projeto criado com sucesso!');
       void queryClient.invalidateQueries({ queryKey: PROJECTS_QUERY_KEY });
+    },
+    onError: () => {
+      toast.error('Erro ao criar projeto. Tente novamente.');
     },
   });
 }
@@ -57,10 +62,14 @@ export function useUpdateProject() {
     mutationFn: ({ id, input }: { id: string; input: UpdateProjectFormValues }) =>
       updateProjectRequest(id, input),
     onSuccess: (_, variables) => {
+      toast.success('Projeto atualizado com sucesso!');
       void queryClient.invalidateQueries({ queryKey: PROJECTS_QUERY_KEY });
       void queryClient.invalidateQueries({
         queryKey: [...PROJECTS_QUERY_KEY, variables.id],
       });
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar projeto. Tente novamente.');
     },
   });
 }
@@ -71,7 +80,11 @@ export function useDeleteProject() {
   return useMutation({
     mutationFn: (id: string) => deleteProjectRequest(id),
     onSuccess: () => {
+      toast.success('Projeto deletado com sucesso!');
       void queryClient.invalidateQueries({ queryKey: PROJECTS_QUERY_KEY });
+    },
+    onError: () => {
+      toast.error('Erro ao deletar projeto. Tente novamente.');
     },
   });
 }

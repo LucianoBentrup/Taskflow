@@ -11,12 +11,18 @@ import type { DashboardSummary, ProjectWithTaskCount, TasksByStatus } from '@/dt
 export const dashboardService = {
   // Resumo do dashboard: total de projetos, total de tarefas e contagem
   // de tarefas por status — tudo filtrado pelos projetos do usuário.
-  async getSummary(userId: string): Promise<DashboardSummary> {
+  // Se projectId for fornecido, filtra apenas por esse projeto.
+  async getSummary(userId: string, projectId?: string): Promise<DashboardSummary> {
+    const projectFilter = projectId ? { ownerId: userId, id: projectId } : { ownerId: userId };
+    const taskFilter = projectId
+      ? { project: { ownerId: userId, id: projectId } }
+      : { project: { ownerId: userId } };
+
     const [projectsCount, tasksGroupedByStatus] = await Promise.all([
-      prisma.project.count({ where: { ownerId: userId } }),
+      prisma.project.count({ where: projectFilter }),
       prisma.task.groupBy({
         by: ['status'],
-        where: { project: { ownerId: userId } },
+        where: taskFilter,
         _count: { _all: true },
       }),
     ]);

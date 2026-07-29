@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import {
   createTaskRequest,
@@ -52,9 +53,13 @@ export function useCreateTask() {
   return useMutation({
     mutationFn: (input: CreateTaskFormValues & { projectId: string }) => createTaskRequest(input),
     onSuccess: (_, variables) => {
+      toast.success('Tarefa criada com sucesso!');
       void queryClient.invalidateQueries({
         queryKey: [...TASKS_QUERY_KEY, { projectId: variables.projectId }],
       });
+    },
+    onError: () => {
+      toast.error('Erro ao criar tarefa. Tente novamente.');
     },
   });
 }
@@ -66,10 +71,14 @@ export function useUpdateTask() {
     mutationFn: ({ id, input }: { id: string; input: UpdateTaskFormValues }) =>
       updateTaskRequest(id, input),
     onSuccess: (_, variables) => {
+      toast.success('Tarefa atualizada com sucesso!');
       void queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
       void queryClient.invalidateQueries({
         queryKey: [...TASKS_QUERY_KEY, variables.id],
       });
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar tarefa. Tente novamente.');
     },
   });
 }
@@ -80,7 +89,11 @@ export function useDeleteTask() {
   return useMutation({
     mutationFn: (id: string) => deleteTaskRequest(id),
     onSuccess: () => {
+      toast.success('Tarefa deletada com sucesso!');
       void queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
+    },
+    onError: () => {
+      toast.error('Erro ao deletar tarefa. Tente novamente.');
     },
   });
 }

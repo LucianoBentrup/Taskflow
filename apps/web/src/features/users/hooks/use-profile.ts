@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import {
   changePasswordRequest,
@@ -34,7 +35,11 @@ export function useUpdateProfile() {
   return useMutation({
     mutationFn: (input: UpdateProfileFormValues) => updateUserRequest(user!.id, input),
     onSuccess: () => {
+      toast.success('Perfil atualizado com sucesso!');
       void queryClient.invalidateQueries({ queryKey: PROFILE_QUERY_KEY });
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar perfil. Tente novamente.');
     },
   });
 }
@@ -48,5 +53,11 @@ export function useChangePassword() {
         currentPassword: input.currentPassword,
         newPassword: input.newPassword,
       }),
+    onSuccess: () => {
+      toast.success('Senha alterada com sucesso!');
+    },
+    onError: () => {
+      toast.error('Erro ao alterar senha. Verifique sua senha atual e tente novamente.');
+    },
   });
 }

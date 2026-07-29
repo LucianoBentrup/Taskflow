@@ -4,14 +4,13 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { registerFormSchema, type RegisterFormValues } from '@/features/auth/schemas/auth.schemas';
 
 export function RegisterForm() {
   const { register: registerUser } = useAuth();
   const router = useRouter();
-  const [formError, setFormError] = useState<string | null>(null);
 
   const {
     register,
@@ -20,12 +19,12 @@ export function RegisterForm() {
   } = useForm<RegisterFormValues>({ resolver: zodResolver(registerFormSchema) });
 
   async function onSubmit(values: RegisterFormValues) {
-    setFormError(null);
     try {
       await registerUser(values);
+      toast.success('Conta criada com sucesso!');
       router.push('/');
     } catch {
-      setFormError('Não foi possível concluir o cadastro. Verifique os dados e tente novamente.');
+      toast.error('Não foi possível concluir o cadastro. Verifique os dados e tente novamente.');
     }
   }
 
@@ -69,8 +68,6 @@ export function RegisterForm() {
         />
         {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
       </div>
-
-      {formError && <p className="text-sm text-red-600">{formError}</p>}
 
       <button
         type="submit"

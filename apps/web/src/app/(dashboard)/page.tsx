@@ -5,23 +5,14 @@ import { useDashboardSummary } from '@/features/dashboard/hooks/useDashboardSumm
 import { DashboardSummaryCards } from '@/features/dashboard/components/DashboardSummary';
 import { TasksStatusChart } from '@/features/dashboard/components/TasksStatusChart';
 import { DashboardFilter } from '@/features/dashboard/components/DashboardFilter';
+import { DashboardSkeleton } from '@/components/ui/skeletons/DashboardSkeleton';
 
 export default function HomePage() {
-  const { data, isLoading, isError } = useDashboardSummary();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const { data, isLoading, isError } = useDashboardSummary(selectedProjectId);
 
   if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="h-8 w-48 animate-pulse rounded-lg bg-gray-200" />
-        <div className="grid gap-4 md:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-24 animate-pulse rounded-lg bg-gray-200" />
-          ))}
-        </div>
-        <div className="h-96 animate-pulse rounded-lg bg-gray-200" />
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (isError || !data) {

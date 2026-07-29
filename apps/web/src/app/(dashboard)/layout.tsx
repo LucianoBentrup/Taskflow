@@ -7,11 +7,11 @@ import { RequireAuth } from '@/features/auth/components/RequireAuth';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <RequireAuth>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen flex-col md:flex-row">
         <Sidebar />
         <div className="flex flex-1 flex-col">
           <Header />
-          <main className="flex-1 p-6">{children}</main>
+          <main className="flex-1 overflow-auto bg-background p-4 sm:p-6">{children}</main>
         </div>
       </div>
     </RequireAuth>

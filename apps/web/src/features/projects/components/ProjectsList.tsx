@@ -7,6 +7,7 @@ import {
   useDeleteProject,
   useUpdateProject,
 } from '@/features/projects/hooks/use-projects';
+import { ProjectsListSkeleton } from '@/components/ui/skeletons/ProjectsListSkeleton';
 
 export function ProjectsList() {
   const [page, setPage] = useState(1);
@@ -47,7 +48,7 @@ export function ProjectsList() {
   }
 
   if (isLoading) {
-    return <p className="text-sm text-muted-foreground">Carregando projetos...</p>;
+    return <ProjectsListSkeleton />;
   }
 
   if (isError) {

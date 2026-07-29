@@ -4,14 +4,13 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { loginFormSchema, type LoginFormValues } from '@/features/auth/schemas/auth.schemas';
 
 export function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
-  const [formError, setFormError] = useState<string | null>(null);
 
   const {
     register,
@@ -20,12 +19,12 @@ export function LoginForm() {
   } = useForm<LoginFormValues>({ resolver: zodResolver(loginFormSchema) });
 
   async function onSubmit(values: LoginFormValues) {
-    setFormError(null);
     try {
       await login(values);
+      toast.success('Login realizado com sucesso!');
       router.push('/');
     } catch {
-      setFormError('Email ou senha inválidos');
+      toast.error('Email ou senha inválidos');
     }
   }
 
@@ -56,8 +55,6 @@ export function LoginForm() {
         />
         {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
       </div>
-
-      {formError && <p className="text-sm text-red-600">{formError}</p>}
 
       <button
         type="submit"

@@ -8,6 +8,7 @@ import {
   updateProfileFormSchema,
   type UpdateProfileFormValues,
 } from '@/features/users/schemas/user.schemas';
+import { ProfileFormSkeleton } from '@/components/ui/skeletons/FormSkeletons';
 
 export function ProfileForm() {
   const { data: profile, isLoading, isError } = useProfile();
@@ -40,7 +41,7 @@ export function ProfileForm() {
   }
 
   if (isLoading) {
-    return <p className="text-sm text-muted-foreground">Carregando perfil...</p>;
+    return <ProfileFormSkeleton />;
   }
 
   if (isError || !profile) {

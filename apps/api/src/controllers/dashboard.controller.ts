@@ -5,6 +5,10 @@ import { dashboardService } from '@/services/dashboard.service';
 // regra de negócio aqui.
 
 export async function getSummary(req: Request, res: Response) {
-  const summary = await dashboardService.getSummary(req.user!.id);
+  const { projectId } = req.query;
+  const summary = await dashboardService.getSummary(
+    req.user!.id,
+    projectId ? String(projectId) : undefined,
+  );
   res.status(200).json(summary);
 }
