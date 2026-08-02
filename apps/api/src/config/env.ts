@@ -15,4 +15,3 @@ export const env = {
   bcryptSalt: Number(process.env.BCRYPT_SALT ?? 10),
   isProduction: process.env.NODE_ENV === 'production',
 };
-7;
